@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package admin;
+
+service AdminService {
+  rpc FindAdminOne (AdminById) returns (Admin);
+  rpc FindAdminMany (stream AdminById) returns (stream Admin);
+}
+
+message AdminById {
+  string id = 1;
+}
+
+message Admin {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string status = 4;
+  string role = 5;
+  string token = 6;
+}
+
+message AdminList {
+  repeated Admin admins = 1; 
+}

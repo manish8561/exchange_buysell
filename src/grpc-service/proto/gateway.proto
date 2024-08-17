@@ -1,0 +1,548 @@
+syntax = "proto3";
+
+package gateway;
+
+message createAccountReq {
+    string apiKey = 1;   
+}
+message createAccountResp {
+    int32 status = 1;
+    bool error = 2;
+    createAccountData data = 3;
+    string message = 4;
+}
+message createAccountData {
+    string clientId = 1;     
+}
+
+message getAllCoinsBalanceReq {
+    string apiKey = 1;
+    string clientId = 2;   
+}
+
+message manualFiatDepositReq {
+    string clientId = 1;
+    string coin = 2; 
+    string apiKey = 3;
+    string transactionId = 5;
+    float amount = 6;
+    string coinSymbol = 7;
+}
+
+message manualFiatDepositResp {
+    int32 status = 1;
+    bool error = 2;
+    string message = 3;
+    emptyReq data=4;
+}
+
+message getAllCoinsBalanceResp {
+    int32 status = 1;
+    bool error = 2;
+    repeated getBalanceData data = 3;
+    string message = 4;
+}
+
+message getBalanceData {
+    string coin = 1;
+    string address = 2;
+    double balance=3;
+    double locked_balance=4;
+    int32 is_crypto=5;      
+}
+
+message getAllCurrencyReq {
+    string coin_type = 1;
+}
+
+message getAllCurrencyResp {
+    int32 status = 1;
+    bool error = 2;
+    repeated getCurrencyData data = 3;
+    string message = 4;
+}
+
+message getCurrencyData {
+    string asset_id = 1;
+    string name = 2;
+    string key_symbol = 3;
+    bool status = 4;
+    bool is_fiat = 5;    
+}
+message getBalanceResp {
+    int32 status = 1;
+    bool error = 2;
+    geCoinData data = 3;
+    string message = 4;
+}
+message geCoinData {
+    double balance = 1;
+    double locked_balance = 2;    
+}
+message getBalanceReq {
+    string apiKey = 1;
+    string clientId = 2; 
+    string coin = 3;
+    string coinSymbol = 4;
+}
+
+message withdrawRequestReq {
+    string apiKey = 1;
+    string clientId = 2; 
+    string coin = 3;
+    string currencyId = 4;
+    double amount = 5;
+    string coinSymbol = 6;
+    reqBankDetail bankDetail = 7;
+}
+message reqBankDetail {
+    string accountId = 1;
+    string bankName = 2;
+    string accountNumber = 3;
+    string accountName = 4;
+    string currency = 5;
+    string accountType = 6;
+}
+
+
+message withdrawRequestResp {
+    int32 status = 1;
+    bool error = 2;
+    string message = 3;
+}
+
+message adminWithdrawTransactionsListFiatReq {
+    string coin = 1;
+    int32 limit = 2;
+    int32 offset = 3; 
+    string fromDate=4;
+    string toDate=5;
+    string accountType=6;
+    string coinSymbol=7;
+    repeated string clientId=8;
+    string apiKey=9;
+    string filter=10;
+}
+
+message adminWithdrawTransactionsListFiatResp {
+    int32 status = 1;
+    bool error = 2;
+    repeated adminWithdrawTransactionsDataFiat data = 3;
+    string message = 4;
+    int32 totalRecords = 5;
+}
+message adminWithdrawTransactionsDataFiat {
+    double amount = 1;  
+    int32 status = 2;   
+    string account_number = 3;
+    string account_name = 4;
+    string bank_name = 5;
+    string account_type = 6;
+    string id = 7;
+    string client_id = 8;
+
+}
+
+message depositTransactionsReq {
+    string apiKey = 1;
+    string clientId = 2;
+    string coin =3;
+    int32 page=4; 
+    int32 size=5;  
+}
+
+message depositTransactionsResp {
+    int32 status = 1;
+    bool error = 2;
+    repeated depositTransactionsData data = 3;
+    string message = 4;
+}
+
+message depositTransactionsData {
+    int32 totalRecords = 1;
+    double amount = 2;
+    string deposits_id=3;    
+    string tx_id=4;     
+    int32 status=5;     
+    int32 confirmations=6;
+    string address_to=7;
+    string address_from=8;
+    string created_at=9;
+    string updated_at=10;  
+    string coin=11;   
+}
+
+message withdrawTransactionsReq {
+    string apiKey = 1;
+    string clientId = 2;
+    string coin =3;
+    int32 page=4; 
+    int32 size=5;  
+ }
+
+message withdrawTransactionsResp {
+    int32 status = 1;
+    bool error = 2;
+    repeated withdrawTransactionsData data = 3;
+    string message = 4;
+}
+
+message withdrawTransactionsData {
+    int32 totalRecords = 1;
+    double amount = 2;
+    string id=3;    
+    string tx_id=4;     
+    int32 status=5;     
+    int32 confirmations=6;
+    string address_to=7;
+    string address_from=8;
+    double fee=9;
+    string created_at=10;
+    string updated_at=11;
+    string coin=12; 
+    double received_amount=13;      
+
+}
+message withdrawCryptoReq {
+    string apiKey = 1;
+    string clientId = 2;
+    string coin=3;
+    double amount=4;
+    string address=5;
+}
+
+message withdrawCryptoResp {
+    int32 status = 1;
+    bool error = 2;
+    getBalanceData data = 3;
+    string message = 4;
+}
+
+message withdrawApprovalReq {
+    string coin = 1;
+    string withdrawId=2;
+    string adminId=3;
+    string reason =4;
+    int32 actionType=5;
+}
+message withdrawApprovalResp {
+    int32 status = 1;
+    bool error = 2;
+    string message = 3;
+}
+
+message fiatWithdrawTransactionsHistoryReq {
+    string apiKey = 1;
+    string clientId = 2;
+    string coin =3;
+    int32 page=4; 
+    int32 size=5; 
+    string coinSymbol = 6; 
+}
+
+message fiatWithdrawTransactionsHistoryResp {
+    int32 status = 1;
+    bool error = 2;
+    repeated fiatWithdrawTransactionsData data = 3;
+    string message = 4;
+    int32 totalRecords = 5;
+}
+
+message fiatWithdrawTransactionsData {
+    double amount = 1;
+    string id=2;    
+    int32 status=3;     
+    string created_at=4;
+    string updated_at=5;      
+    string coin=6; 
+    string tx_id=7; 
+}
+message emptyReq {}
+
+message cryptoWithdrawTransactionsForAdminReq {
+    string apiKey = 1;
+    string clientId = 2;
+    string coin =3;
+    int32 page=4; 
+    int32 size=5;  
+    string fromDate=6;
+    string toDate=7;
+    string txId=8;
+    string address=9;
+    repeated string search=10;
+}
+message cryptoWithdrawTransactionsForAdminResp {
+    int32 status = 1;
+    bool error = 2;
+    repeated cryptoWithdrawTransactionsDataForAdmin data = 3;
+    string message = 4;
+}
+
+message cryptoWithdrawTransactionsDataForAdmin {
+    int32 totalRecords = 1;
+    double amount = 2;
+    string id=3;    
+    string tx_id=4;     
+    int32 status=5;     
+    int32 confirmations=6;
+    string address_to=7;
+    string address_from=8;
+    double fee=9;
+    string created_at=10;
+    string updated_at=11;  
+    string client_id=12;    
+    double received_amount=13;
+}
+message cryptoDepositTransactionsForAdminReq {
+    string apiKey = 1;
+    string clientId = 2;
+    string coin =3;
+    int32 page=4; 
+    int32 size=5;  
+    string fromDate=6;
+    string toDate=7;
+    string txId=8;
+    string address=9; 
+    repeated string search=10; 
+}
+
+message cryptoDepositTransactionsForAdminResp {
+    int32 status = 1;
+    bool error = 2;
+    repeated cryptoDepositTransactionsDataForAdmin data = 3;
+    string message = 4;
+}
+
+message cryptoDepositTransactionsDataForAdmin {
+    int32 totalRecords = 1;
+    double amount = 2;
+    string deposits_id=3;    
+    string tx_id=4;     
+    int32 status=5;     
+    int32 confirmations=6;
+    string address_to=7;
+    string address_from=8;
+    string created_at=9;
+    string updated_at=10;
+    string client_id=11;    
+}
+message userFiatWithdrawTransactionsForAdminReq {
+    string apiKey = 1;
+    string clientId = 2;
+    string coin =3;
+    int32 page=4; 
+    int32 size=5;  
+    string fromDate=6;
+    string toDate=7;
+    string txId=8;
+    string address=9;
+    string coinSymbol=10;
+}
+
+message userFiatWithdrawTransactionsForAdminResp {
+    int32 status = 1;
+    bool error = 2;
+    repeated fiatWithdrawTransactionsDataForAdmin data = 3;
+    string message = 4;
+    int32 totalRecords = 5;
+}
+
+message fiatWithdrawTransactionsDataForAdmin {
+    int32 totalRecords = 1;
+    double amount = 2;
+    string id=3;    
+    string tx_id=4;     
+    int32 status=5;     
+    double confirmations=6;
+    string address_to=7;
+    string address_from=8;
+    double fee=9;
+    string created_at=10;
+    string updated_at=11;  
+    string client_id=12;    
+
+}
+
+message userWithdrawAndDepositTotalReq {
+    string userId = 1;
+    string adminId = 2;
+    string clientId = 3;   
+    string apiKey = 4;
+}
+
+message userWithdrawAndDepositTotalResp {
+    int32 status = 1;
+    bool error = 2;
+    string message = 3;
+    repeated withdrawAndDepositTotalData data = 4;
+}
+
+message withdrawAndDepositTotalData {
+    double deposit_balance = 1; 
+    double withdraw_balance = 2; 
+    double locked_balance = 3; 
+    double balance = 4;  
+    string created_at=5;
+    string updated_at=6;
+    string key_symbol=7;
+}
+message coinDetailsReq {
+    string coin = 1;
+    string coin_symbol=2; 
+}
+message coinDetailsResp {
+    int32 status = 1;
+    bool error = 2;
+    coinDetailsData data = 3;
+    string message = 4;
+}
+message coinDetailsData{
+    double withdraw_fee=1;
+    double minimum_withdraw=2;
+    int32 is_withdraw_disabled=3;
+    string withdraw_fee_type=4;
+    double with_kyc_withdraw_limit=5;
+    double without_kyc_withdraw_limit=6;
+    string deposit_fee_type=7;
+    double deposit_fee=8;
+}
+message coinListReq{
+    int32 status=1;
+} 
+message coinListResp{
+    int32 status = 1;
+    bool error = 2;
+    repeated coinListData data = 3;
+    string message = 4;
+}
+message coinListData{
+    double withdraw_fee=1;
+    double minimum_withdraw=2;
+    int32 is_withdraw_disabled=3;
+    string withdraw_fee_type=4;
+    double with_kyc_withdraw_limit=5;
+    double without_kyc_withdraw_limit=6;
+    string deposit_fee_type=7;
+    double deposit_fee=8;
+    string coin=9;
+    int32 status=10;
+    int32 is_fiat=11;
+    int32 is_default=12;
+}
+
+message updateCurrencyReq{
+    double withdraw_fee=1;
+    double minimum_withdraw=2;
+    int32 is_withdraw_disabled=3;
+    string withdraw_fee_type=4;
+    double with_kyc_withdraw_limit=5;
+    double without_kyc_withdraw_limit=6;
+    string deposit_fee_type=7;
+    double deposit_fee=8;
+    string coin=9;
+    int32 status=10;
+    string coin_symbol=11;
+}
+message updateCurrencyData{
+    double withdraw_fee=1;
+    double minimum_withdraw=2;
+    int32 is_withdraw_disabled=3;
+    string withdraw_fee_type=4;
+    double with_kyc_withdraw_limit=5;
+    double without_kyc_withdraw_limit=6;
+    string deposit_fee_type=7;
+    double deposit_fee=8;
+    string coin=9;
+    int32 status=10;
+    
+}
+message updateCurrencyResp{
+    int32 status = 1;
+    bool error = 2;
+    updateCurrencyData data = 3;
+    string message = 4;
+    
+}
+message updateWithdrawStateReq{
+    int32 status=1;
+}
+message updateWithdrawStateResp{
+    int32 status = 1;
+    bool error = 2;
+    emptyReq data = 3;
+    string message = 4;
+    
+}
+
+message lockUnlockBalanceReq{
+    string apiKey = 1;
+    string clientId = 2; 
+    string coin = 3;
+    string typeId = 4;
+    double amount=5;
+    string type = 6;
+    string coinSymbol = 7;
+}
+
+message lockUnlockBalanceResp{
+    int32 status = 1;
+    bool error = 2;
+    string message = 3;
+}
+message updateIsDefaultCoinReq{
+    int32 isDefault=1;
+    string currencyType=2;
+}
+message updateIsDefaultCoinResp{
+    int32 status = 1;
+    bool error = 2;
+    emptyReq data = 3;
+    string message = 4;
+    
+}
+
+message updateAccountBalanceReq{
+    string apiKey = 1;
+    string clientId = 2; 
+    string coin = 3;
+    string typeId = 4;
+    double amount=5;
+    string type = 6;
+    string coinSymbol = 7;
+    string status = 8;
+    double fee = 9;
+    
+}
+message updateAccountBalanceResp{
+    int32 status = 1;
+    bool error = 2;
+    string message = 3;
+    emptyReq data =4;
+}
+service GatewayService {
+rpc createAccount(createAccountReq) returns (createAccountResp) {}
+rpc getAllCoinsBalance(getAllCoinsBalanceReq) returns (getAllCoinsBalanceResp) {}
+rpc manualFiatDeposit(manualFiatDepositReq) returns (manualFiatDepositResp) {}
+rpc getAllCurrency(getAllCurrencyReq) returns (getAllCurrencyResp) {}
+rpc getBalance(getBalanceReq) returns (getBalanceResp) {}
+rpc withdrawRequest(withdrawRequestReq) returns (withdrawRequestResp) {}
+rpc adminWithdrawTransactionsListFiat(adminWithdrawTransactionsListFiatReq) returns (adminWithdrawTransactionsListFiatResp) {}
+rpc depositTransactionsHistory(depositTransactionsReq) returns (depositTransactionsResp) {}
+rpc withdrawTransactionsHistory(withdrawTransactionsReq) returns (withdrawTransactionsResp) {}
+rpc withdrawCryptoRequest(withdrawCryptoReq) returns (withdrawCryptoResp) {}
+rpc withdrawRequestApproval(withdrawApprovalReq) returns (withdrawApprovalResp) {}
+rpc fiatWithdrawTransactionsHistory(fiatWithdrawTransactionsHistoryReq) returns (fiatWithdrawTransactionsHistoryResp) {}
+rpc cryptoDepositTransactionsForAdmin(cryptoDepositTransactionsForAdminReq) returns (cryptoDepositTransactionsForAdminResp) {}
+rpc cryptoWithdrawTransactionsForAdmin(cryptoWithdrawTransactionsForAdminReq) returns (cryptoWithdrawTransactionsForAdminResp) {}
+rpc userFiatWithdrawTransactionsForAdmin(userFiatWithdrawTransactionsForAdminReq) returns (userFiatWithdrawTransactionsForAdminResp) {}
+rpc userWithdrawAndDepositTotal(userWithdrawAndDepositTotalReq) returns (userWithdrawAndDepositTotalResp) {}
+rpc depositTransactionHistoryOfAllCoins(depositTransactionsReq) returns (depositTransactionsResp) {}
+rpc coinDetailsBySymbol(coinDetailsReq) returns (coinDetailsResp) {}
+rpc activeCoinList(coinListReq) returns (coinListResp) {}
+rpc currencyList(emptyReq) returns (coinListResp){}
+rpc updateCurrencyDetails(updateCurrencyReq) returns (updateCurrencyResp){}
+rpc updateWithdrawStateForAll(updateWithdrawStateReq) returns (updateWithdrawStateResp){}
+rpc lockUnlockBalance(lockUnlockBalanceReq) returns (lockUnlockBalanceResp){}
+rpc updateIsDefaultCoin(updateIsDefaultCoinReq) returns (updateIsDefaultCoinResp){}
+rpc updateAccountBalance(updateAccountBalanceReq) returns (updateAccountBalanceResp){}
+}

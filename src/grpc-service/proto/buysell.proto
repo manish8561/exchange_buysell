@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package buysell;
+
+message getUsersListReq {
+    int32 limit =1 ;
+    int32 offset = 2;
+    string search = 3;
+    string fromDate = 4;
+    string toDate = 5;
+}
+message getUsersListResp {
+    int32 status = 1;
+    bool error = 2;
+    getAllUsers data = 3;
+   
+}
+message getAllUsers{
+    int32 count=1;
+    repeated getOneUser rows=2;
+}
+message getOneUser {
+    string id=1;
+    string email=2;
+    string phoneNumber=3;
+    string createdAt=4;
+    UserDetail UserDetail=5;
+    string status=6;
+}
+message getKycListReq {
+    int32 limit =1 ;
+    int32 offset = 2;
+    string search = 3;
+    string fromDate = 4;
+    string toDate = 5;
+    string status = 6;
+}
+message getKycListResp {
+    int32 status = 1;
+    bool error = 2;
+    getAllKyc data = 3;
+    string message = 4;
+}
+message getAllKyc {
+    int32 count=1;
+    repeated getOneKyc rows=2;
+}
+message getOneKyc {
+    string id = 1;
+    string firstName = 2;
+    string lastName = 3;
+    UserDetail UserDetail = 4;
+    User User = 5;
+    string createdAt = 6;
+    string approvedDate = 7;
+    string document = 8;
+    string documentType = 9;
+    string status = 10;
+    string userId = 11;
+    string dob = 12;
+    string zipCode = 13;
+    string country = 14;
+}
+message User {
+    string email = 1;
+    string kycStatus = 2;
+}
+message UserDetail {
+    string userName = 1;
+    string firstName=2;
+    string lastName=3;
+     string fullName=4;
+}
+message getUserByIdReq {
+    string userId = 1;
+}
+message blockUserByIdReq {
+    string userId = 1;
+    string time=2;
+    string status=3;
+    string message=4;
+    string blockedBy=5;
+}
+message blockUserByIdResp {
+    int32 status = 1;
+    bool error = 2;
+    string message = 3;
+}
+
+message updateKycStatusReq {
+    string id = 1;
+    string status = 2;
+    string actionBy = 3;
+    string adminMessage = 4;
+    string userId = 5;
+}
+
+message updateKycStatusRes {
+    int32 status = 1;
+    bool error = 2;
+    updateKycStatus data = 3;
+    string message = 4;
+}
+
+message updateKycStatus {
+  string status = 1;
+}
+
+message getUserListCsvReq {
+}
+
+message getUsersListCsvResp {
+    int32 status = 1;
+    bool error = 2;
+    repeated getOneUserCsv data = 3;
+}
+
+message getOneUserCsv {
+    string id=1;
+    string Email=2;
+    required string Phone=3;
+    string Date=4;
+    string Username=5;
+    string Name = 6;
+    string status=7;
+    required int32 nftsCount=8;
+}
+  message getUserFeedbackListResponse {
+    int32 status = 1;
+    bool error = 2;
+    string message=3;
+    getAllUsersfeedback data = 4;
+}
+message getAllUsersfeedback{
+    int32 count=1;
+    repeated Userfeedback rows=2;
+}
+message UserInfo {
+    string id =1;
+    string email=2;
+    UserDetail UserDetail=3;
+    string status=4;
+}
+message Userfeedback {
+    repeated question questions = 1;
+    string recommend = 2;
+    string satisfied = 3;
+    string paymentRating = 4;
+    string uploadDoc = 5;
+    string createdAt = 6;
+    UserInfo userInfo = 7;
+}
+message question {
+    string q=1;
+    string a=2;
+}
+message getTotalUserReq {
+}
+message getTotalUserResp {
+    int32 status = 1;
+    bool error = 2;
+    int32 data=3;
+    string message = 4;
+}
+
+
+service BuySellService {
+    rpc getUsersList (getUsersListReq) returns (getUsersListResp) {}
+    rpc getKycList (getKycListReq) returns (getKycListResp) {}
+    rpc getUserById (getUserByIdReq) returns (getUsersListResp) {}
+    rpc blockUserById (blockUserByIdReq) returns (blockUserByIdResp) {}
+    rpc updateKycStatusById (updateKycStatusReq) returns (updateKycStatusRes) {}
+    rpc getUserListCsv(getUserListCsvReq) returns (getUsersListCsvResp) {}
+    rpc getUserFeedbackList(getUsersListReq) returns (getUserFeedbackListResponse) {}
+    rpc getTotalUser(getTotalUserReq) returns (getTotalUserResp) {}
+}
